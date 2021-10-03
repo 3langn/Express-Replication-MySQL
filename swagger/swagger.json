@@ -1,0 +1,1110 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ErrorJSON": {
+				"properties": {
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IUser": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TaskStatus": {
+				"enum": [
+					"NEW",
+					"COMPLETE"
+				],
+				"type": "string"
+			},
+			"ITodo": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"nameTask": {
+						"type": "string"
+					},
+					"dateOfCompletion": {
+						"type": "string"
+					},
+					"status": {
+						"$ref": "#/components/schemas/TaskStatus"
+					}
+				},
+				"required": [
+					"userId",
+					"description",
+					"nameTask",
+					"dateOfCompletion"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Record_string.any_": {
+				"properties": {},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "apiKey",
+				"name": "x-access-token",
+				"in": "header"
+			}
+		}
+	},
+	"info": {
+		"title": ""
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/v1/sign-up": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"refresh": {
+											"properties": {
+												"expires": {},
+												"token": {}
+											},
+											"required": [
+												"expires",
+												"token"
+											],
+											"type": "object"
+										},
+										"access": {
+											"properties": {
+												"expires": {},
+												"token": {}
+											},
+											"required": [
+												"expires",
+												"token"
+											],
+											"type": "object"
+										}
+									},
+									"required": [
+										"refresh",
+										"access"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"access": {
+												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzMzM1MzA4NiwidHlwZSI6ImFjY2VzcyJ9.m5TPLskC2dRk1Thk20QwhIM2zMKO1NsRdK1VdyLNryg",
+												"expires": "2021-10-04T13:11:26.143Z"
+											},
+											"refresh": {
+												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzNTk0MzI4NiwidHlwZSI6InJlZnJlc2gifQ.JM3kUORqmEWSwZvkJzqHCk7Vo0pa57h5hfOQ2Wx3FGw",
+												"expires": "2021-11-03T12:41:26.157Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 400,
+											"message": "Username already exists"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUser"
+							},
+							"example": {
+								"username": "fakename",
+								"password": "password"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/sign-in": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"refresh": {
+											"properties": {
+												"expires": {},
+												"token": {}
+											},
+											"required": [
+												"expires",
+												"token"
+											],
+											"type": "object"
+										},
+										"access": {
+											"properties": {
+												"expires": {},
+												"token": {}
+											},
+											"required": [
+												"expires",
+												"token"
+											],
+											"type": "object"
+										}
+									},
+									"required": [
+										"refresh",
+										"access"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"access": {
+												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzMzM1MzA4NiwidHlwZSI6ImFjY2VzcyJ9.m5TPLskC2dRk1Thk20QwhIM2zMKO1NsRdK1VdyLNryg",
+												"expires": "2021-10-04T13:11:26.143Z"
+											},
+											"refresh": {
+												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzNTk0MzI4NiwidHlwZSI6InJlZnJlc2gifQ.JM3kUORqmEWSwZvkJzqHCk7Vo0pa57h5hfOQ2Wx3FGw",
+												"expires": "2021-11-03T12:41:26.157Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 400,
+											"message": "User not found"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 401,
+											"message": "Password is incorrect"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUser"
+							},
+							"example": {
+								"username": "fakename",
+								"password": "password"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/add-to-do": {
+			"post": {
+				"operationId": "AddTodo",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"properties": {
+												"updated_at": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"created_at": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"user": {
+													"properties": {
+														"username": {
+															"type": "string"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"username",
+														"id"
+													],
+													"type": "object"
+												},
+												"status": {
+													"type": "string"
+												},
+												"date_of_completion": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"description": {
+													"type": "string"
+												},
+												"name_task": {
+													"type": "string"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"updated_at",
+												"created_at",
+												"user",
+												"status",
+												"date_of_completion",
+												"description",
+												"name_task",
+												"id"
+											],
+											"type": "object"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"message": "Add todo successfulllly",
+											"data": {
+												"id": "a4026125-ecc4-467f-8112-af1741d3f7a9",
+												"name_task": "fakename",
+												"description": "fake description",
+												"date_of_completion": "2025-10-04 12:47:21.461366",
+												"status": "NEW",
+												"user": {
+													"id": "4c86fa54-bc50-40d7-b7e4-8d760e8b6901",
+													"username": "mnguyen"
+												},
+												"created_at": "2021-10-04T11:14:33.988Z",
+												"updated_at": "2021-10-04T11:14:33.988Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 400,
+											"message": "Todo name already exists"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 404,
+											"message": "User not found"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITodo"
+							},
+							"example": {
+								"userId": "16f42f4b-2133-48b8-a31a-264909e8b034",
+								"description": "fake description",
+								"nameTask": "fakename",
+								"dateOfCompletion": "2025-10-04 12:47:21.461366"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/update-to-do/{id}": {
+			"put": {
+				"operationId": "UpdateTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"properties": {
+												"updated_at": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"created_at": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"user": {
+													"properties": {
+														"username": {
+															"type": "string"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"username",
+														"id"
+													],
+													"type": "object"
+												},
+												"status": {
+													"type": "string"
+												},
+												"date_of_completion": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"description": {
+													"type": "string"
+												},
+												"name_task": {
+													"type": "string"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"updated_at",
+												"created_at",
+												"user",
+												"status",
+												"date_of_completion",
+												"description",
+												"name_task",
+												"id"
+											],
+											"type": "object"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"message": "Todo has been updated successfully",
+											"data": {
+												"id": "4170d00f-6e07-40ca-9cd9-a21515a284cc",
+												"name_task": "Do homework",
+												"description": "fake description",
+												"date_of_completion": "2021-10-03T08:37:16.197Z",
+												"status": "COMPLETE",
+												"user": {
+													"id": "1fff4601-453b-4b8a-ada1-04d7cb4064c8",
+													"username": "fakeusername"
+												},
+												"created_at": "2021-10-04T09:26:18.218Z",
+												"updated_at": "2021-10-04T11:24:56.000Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 404,
+											"message": "Todo not found"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"example": "e77ef155-bd12-46f0-8559-bf55f6dd4c63"
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITodo"
+							},
+							"example": {
+								"date_of_completion": "2025-10-03T08:37:16.197Z",
+								"name_task": "Do homework",
+								"description": "fake description",
+								"status": "COMPLETE",
+								"userId": "cacc359c-5c32-46c8-9ea9-94d985119c6a"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/remove-to-do/{id}": {
+			"delete": {
+				"operationId": "RemoveTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"message": "Todo has been removed"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 404,
+											"message": "Todo not found"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"example": "e77ef155-bd12-46f0-8559-bf55f6dd4c63"
+					}
+				]
+			}
+		},
+		"/v1/get-all-to-do": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"properties": {
+											"updated_at": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"created_at": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"user": {
+												"properties": {
+													"username": {
+														"type": "string"
+													},
+													"id": {
+														"type": "number",
+														"format": "double"
+													}
+												},
+												"required": [
+													"username",
+													"id"
+												],
+												"type": "object"
+											},
+											"status": {
+												"type": "string"
+											},
+											"date_of_completion": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"description": {
+												"type": "string"
+											},
+											"name_task": {
+												"type": "string"
+											},
+											"id": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"required": [
+											"updated_at",
+											"created_at",
+											"user",
+											"status",
+											"date_of_completion",
+											"description",
+											"name_task",
+											"id"
+										],
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 404,
+											"message": "List todo is empty"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/v1/get-to-do-by-id/{id}": {
+			"get": {
+				"operationId": "GetTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"updated_at": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"created_at": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"user": {
+											"properties": {
+												"username": {
+													"type": "string"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"username",
+												"id"
+											],
+											"type": "object"
+										},
+										"status": {
+											"type": "string"
+										},
+										"date_of_completion": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"description": {
+											"type": "string"
+										},
+										"name_task": {
+											"type": "string"
+										},
+										"id": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"updated_at",
+										"created_at",
+										"user",
+										"status",
+										"date_of_completion",
+										"description",
+										"name_task",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 404,
+											"message": "Todo not found"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/assign-to-do/{id}": {
+			"post": {
+				"operationId": "AssignTodo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"updated_at": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"created_at": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"user": {
+											"properties": {
+												"username": {
+													"type": "string"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"username",
+												"id"
+											],
+											"type": "object"
+										},
+										"status": {
+											"type": "string"
+										},
+										"date_of_completion": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"description": {
+											"type": "string"
+										},
+										"name_task": {
+											"type": "string"
+										},
+										"id": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"updated_at",
+										"created_at",
+										"user",
+										"status",
+										"date_of_completion",
+										"description",
+										"name_task",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 400,
+											"message": "User assign invalid"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"code": 404,
+											"message": "Todo not found"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"userId": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"userId"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/get-all-user": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Record_string.any_"
+									},
+									"type": "array"
+								},
+								"examples": {
+									"Example 1": {
+										"value": [
+											{
+												"id": "96a9a681-d737-493e-8f7e-d638fd13ecf4",
+												"name_task": "fake name",
+												"description": "fake task",
+												"date_of_completion": "2025-10-04T05:47:21.000Z",
+												"user": {
+													"username": "fakename"
+												},
+												"created_at": "2021-10-04T17:20:02.244Z",
+												"updated_at": "2021-10-04T17:20:02.244Z"
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "List user not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Todo"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
