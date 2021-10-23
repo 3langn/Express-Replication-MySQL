@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  node-app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    ports:
+      - 3001:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: 'admin'
+      DB_PASSWORD: 'adminpw'
+      DB_DATABASE: 'typeorm'
+      PORT: 3000
+      JWT_SECRET: 'thisisasamplesecret'
+      JWT_ACCESS_EXPIRATION_MINUTES: 30
+      JWT_REFRESH_EXPIRATION_DAYS: 30
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootpw'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'adminpw'
+      MYSQL_DATABASE: 'typeorm'
+
+  redis:
+    image: redis

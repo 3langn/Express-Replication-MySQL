@@ -17,7 +17,7 @@ import {
   Path,
 } from 'tsoa';
 import { ErrorJSON } from '../interfaces/error';
-import ITodo from '../interfaces/todo';
+import { ITodo } from '../interfaces/todo';
 
 @Tags('Todo')
 @Route('/v1')

@@ -701,71 +701,8 @@
 			"get": {
 				"operationId": "GetAll",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"properties": {
-											"updated_at": {
-												"type": "string",
-												"format": "date-time"
-											},
-											"created_at": {
-												"type": "string",
-												"format": "date-time"
-											},
-											"user": {
-												"properties": {
-													"username": {
-														"type": "string"
-													},
-													"id": {
-														"type": "number",
-														"format": "double"
-													}
-												},
-												"required": [
-													"username",
-													"id"
-												],
-												"type": "object"
-											},
-											"status": {
-												"type": "string"
-											},
-											"date_of_completion": {
-												"type": "string",
-												"format": "date-time"
-											},
-											"description": {
-												"type": "string"
-											},
-											"name_task": {
-												"type": "string"
-											},
-											"id": {
-												"type": "number",
-												"format": "double"
-											}
-										},
-										"required": [
-											"updated_at",
-											"created_at",
-											"user",
-											"status",
-											"date_of_completion",
-											"description",
-											"name_task",
-											"id"
-										],
-										"type": "object"
-									},
-									"type": "array"
-								}
-							}
-						}
+					"204": {
+						"description": "No content"
 					},
 					"404": {
 						"description": "Not found",

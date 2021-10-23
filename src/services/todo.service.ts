@@ -4,7 +4,10 @@ import { Todo } from '../entity/Todo';
 import ApiError from '../utils/ApiError';
 import httpStatus from 'http-status';
 import { createQueryBuilder } from 'typeorm';
-
+import redisClient from '../config/redis';
+import config from '../config/config';
+import { ITodoResponse } from '../interfaces/todo';
+import { Type } from 'typescript';
 const addTodo = async (
   user: User,
   { dateOfCompletion, nameTask, description }: { dateOfCompletion: string; nameTask: string; description: string }
@@ -83,19 +86,44 @@ const findOneTodoById = async (todoId: string) => {
   return todo;
 };
 
-const getAll = async () => {
-  try {
-    let listTodo = await createQueryBuilder('todos')
-      .select(['todos', 'user.user_name'])
-      .from(Todo, 'todos')
-      .leftJoin('todos.user', 'user')
-      .getMany();
+const setOrGetCache = <T>(key: string, cb: () => Promise<T>): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    redisClient.get(key, (error: Error | null, data: string | null) => {
+      if (error) {
+        reject(error);
+      }
+      if (data) {
+        resolve(JSON.parse(data));
+      } else {
+        cb()
+          .then((result: T) => {
+            redisClient.setex(key, config.redis.expires, JSON.stringify(result));
+            resolve(result);
+          })
+          .catch((error: T) => {
+            reject(error);
+          });
+      }
+    });
+  });
+};
 
-    if (listTodo.length <= 0) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'List Todo is empty');
-    }
-    const resList = listTodo.map((todo) => todo.toJson());
-    return resList;
+const getAll = async (): Promise<ITodoResponse[]> => {
+  try {
+    return setOrGetCache('listTodo', async (): Promise<ITodoResponse[]> => {
+      let queryTodo = await createQueryBuilder('todos')
+        .select(['todos', 'user.user_name'])
+        .from(Todo, 'todos')
+        .leftJoin('todos.user', 'user')
+        .getMany();
+
+      if (queryTodo.length <= 0) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'List Todo is empty');
+      }
+      const resList: ITodoResponse[] = queryTodo.map((todo) => todo.toJson());
+
+      return resList;
+    });
   } catch (error) {
     console.log(error);
 

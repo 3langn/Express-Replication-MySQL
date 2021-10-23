@@ -8,4 +8,17 @@ interface ITodo {
   dateOfCompletion: string;
   status?: TaskStatus;
 }
-export default ITodo;
+interface ITodoResponse {
+  id: number;
+  name_task: string;
+  description: string;
+  date_of_completion: Date;
+  status: string;
+  user: {
+    id: number;
+    username: string;
+  };
+  created_at: Date;
+  updated_at: Date;
+}
+export { ITodo, ITodoResponse };

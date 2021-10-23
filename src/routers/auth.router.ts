@@ -15,6 +15,7 @@ export class AuthController extends Controller {
    *   }
    */
   @Example({
+    user: '3cb47557-2b1b-4aae-8216-9c0e5a04514b',
     access: {
       token:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzMzM1MzA4NiwidHlwZSI6ImFjY2VzcyJ9.m5TPLskC2dRk1Thk20QwhIM2zMKO1NsRdK1VdyLNryg',
@@ -37,7 +38,7 @@ export class AuthController extends Controller {
 
       const user = await userService.createUser(username, password);
       const token = await tokenService.generateAuthToken(user);
-      return token;
+      return { user: user.id, token };
     } catch (error) {
       console.log(error);
       throw error;
@@ -51,6 +52,7 @@ export class AuthController extends Controller {
    *   }
    */
   @Example({
+    user: '3cb47557-2b1b-4aae-8216-9c0e5a04514b',
     access: {
       token:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzMzM1MzA4NiwidHlwZSI6ImFjY2VzcyJ9.m5TPLskC2dRk1Thk20QwhIM2zMKO1NsRdK1VdyLNryg',
@@ -75,6 +77,6 @@ export class AuthController extends Controller {
     const { username, password } = body;
     const user = await authService.loginUserWithUsernameAndPassword(username, password);
     const token = await tokenService.generateAuthToken(user);
-    return token;
+    return { user: user.id, token };
   }
 }
