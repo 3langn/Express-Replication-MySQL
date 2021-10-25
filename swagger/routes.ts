@@ -53,6 +53,21 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITodoResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name_task": {"dataType":"string","required":true},
+            "description": {"dataType":"string","required":true},
+            "date_of_completion": {"dataType":"datetime","required":true},
+            "status": {"dataType":"string","required":true},
+            "user": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Record_string.any_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},

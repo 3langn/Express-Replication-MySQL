@@ -80,6 +80,63 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ITodoResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name_task": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"date_of_completion": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"status": {
+						"type": "string"
+					},
+					"user": {
+						"properties": {
+							"username": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"username",
+							"id"
+						],
+						"type": "object"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"name_task",
+					"description",
+					"date_of_completion",
+					"status",
+					"user",
+					"created_at",
+					"updated_at"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Record_string.any_": {
 				"properties": {},
 				"type": "object",
@@ -109,38 +166,52 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"refresh": {
+										"token": {
 											"properties": {
-												"expires": {},
-												"token": {}
+												"refresh": {
+													"properties": {
+														"expires": {},
+														"token": {}
+													},
+													"required": [
+														"expires",
+														"token"
+													],
+													"type": "object"
+												},
+												"access": {
+													"properties": {
+														"expires": {},
+														"token": {}
+													},
+													"required": [
+														"expires",
+														"token"
+													],
+													"type": "object"
+												}
 											},
 											"required": [
-												"expires",
-												"token"
+												"refresh",
+												"access"
 											],
 											"type": "object"
 										},
-										"access": {
-											"properties": {
-												"expires": {},
-												"token": {}
-											},
-											"required": [
-												"expires",
-												"token"
-											],
-											"type": "object"
+										"user": {
+											"type": "number",
+											"format": "double"
 										}
 									},
 									"required": [
-										"refresh",
-										"access"
+										"token",
+										"user"
 									],
 									"type": "object"
 								},
 								"examples": {
 									"Example 1": {
 										"value": {
+											"user": "3cb47557-2b1b-4aae-8216-9c0e5a04514b",
 											"access": {
 												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzMzM1MzA4NiwidHlwZSI6ImFjY2VzcyJ9.m5TPLskC2dRk1Thk20QwhIM2zMKO1NsRdK1VdyLNryg",
 												"expires": "2021-10-04T13:11:26.143Z"
@@ -205,38 +276,52 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"refresh": {
+										"token": {
 											"properties": {
-												"expires": {},
-												"token": {}
+												"refresh": {
+													"properties": {
+														"expires": {},
+														"token": {}
+													},
+													"required": [
+														"expires",
+														"token"
+													],
+													"type": "object"
+												},
+												"access": {
+													"properties": {
+														"expires": {},
+														"token": {}
+													},
+													"required": [
+														"expires",
+														"token"
+													],
+													"type": "object"
+												}
 											},
 											"required": [
-												"expires",
-												"token"
+												"refresh",
+												"access"
 											],
 											"type": "object"
 										},
-										"access": {
-											"properties": {
-												"expires": {},
-												"token": {}
-											},
-											"required": [
-												"expires",
-												"token"
-											],
-											"type": "object"
+										"user": {
+											"type": "number",
+											"format": "double"
 										}
 									},
 									"required": [
-										"refresh",
-										"access"
+										"token",
+										"user"
 									],
 									"type": "object"
 								},
 								"examples": {
 									"Example 1": {
 										"value": {
+											"user": "3cb47557-2b1b-4aae-8216-9c0e5a04514b",
 											"access": {
 												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YzE3NTQ2OC00YTc4LTRmNzMtYWEwNC1lY2M1MTUxMzE4ZGMiLCJpYXQiOjE2MzMzNTEyODYsImV4cCI6MTYzMzM1MzA4NiwidHlwZSI6ImFjY2VzcyJ9.m5TPLskC2dRk1Thk20QwhIM2zMKO1NsRdK1VdyLNryg",
 												"expires": "2021-10-04T13:11:26.143Z"
@@ -701,8 +786,18 @@
 			"get": {
 				"operationId": "GetAll",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ITodoResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Not found",

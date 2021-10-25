@@ -1,7 +1,14 @@
-FROM node:16
+FROM node:17
 WORKDIR /app
 COPY package.json .
-RUN npm install
+
+ARG NODE_ENV
+RUN if [ ${NODE_ENV} = development ];\
+    then npm install;\
+    else npm install --only=production;\
+    fi
 COPY . ./
 EXPOSE 3000
+RUN chown -R node /app
+USER node
 CMD ["npm","run","dev"]

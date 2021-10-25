@@ -11,6 +11,11 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 RegisterRoutes(app);
+app.enable('trust proxy');
+app.get('/v1', (req, res) => {
+  res.send('Hello World');
+  console.log('Hello World');
+});
 
 app.use('/v1/docs', swaggerUi.serve, async (req: express.Request, res: express.Response) => {
   return res.send(swaggerUi.generateHTML(await import('../swagger/swagger.json')));
