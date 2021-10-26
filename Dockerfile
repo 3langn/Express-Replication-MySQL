@@ -1,4 +1,4 @@
-FROM node:17
+FROM node:17-alpine
 WORKDIR /app
 COPY package.json .
 
@@ -8,7 +8,6 @@ RUN if [ ${NODE_ENV} = development ];\
     else npm install --only=production;\
     fi
 COPY . ./
-EXPOSE 3000
 RUN chown -R node /app
 USER node
 CMD ["npm","run","dev"]
