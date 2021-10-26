@@ -4,7 +4,7 @@ services:
   nginx:
     ports:
       - '80:80'
-  node-app:
+  node-app1:
     build:
       context: .
       args:
@@ -18,7 +18,7 @@ services:
       DB_USERNAME: 'admin'
       DB_PASSWORD: 'adminpw'
       DB_DATABASE: 'typeorm'
-      PORT: 3000
+      PORT: 2222
       JWT_SECRET: 'thisisasamplesecret'
       JWT_ACCESS_EXPIRATION_MINUTES: 30
       JWT_REFRESH_EXPIRATION_DAYS: 30
@@ -26,7 +26,28 @@ services:
     command: npm run dev
     depends_on:
       - mysql
-
+  node-app2:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: 'admin'
+      DB_PASSWORD: 'adminpw'
+      DB_DATABASE: 'typeorm'
+      PORT: 3333
+      JWT_SECRET: 'thisisasamplesecret'
+      JWT_ACCESS_EXPIRATION_MINUTES: 30
+      JWT_REFRESH_EXPIRATION_DAYS: 30
+      NODE_ENV: 'development'
+    command: npm run dev
+    depends_on:
+      - mysql
   mysql:
     image: mysql:8
     ports:

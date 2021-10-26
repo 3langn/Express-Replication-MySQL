@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import { errorHandler } from './middleware/error';
 import ApiError from './utils/ApiError';
 import { RegisterRoutes } from '../swagger/routes';
+import config from './config/config';
 
 const app = express();
 
@@ -13,8 +14,7 @@ app.use(express.json());
 RegisterRoutes(app);
 app.enable('trust proxy');
 app.get('/v1', (req: express.Request, res: express.Response) => {
-  res.send('Hello World');
-  console.log('Hello World');
+  res.send('Hello World '+config.port);
 });
 
 app.use('/v1/docs', swaggerUi.serve, async (req: express.Request, res: express.Response) => {

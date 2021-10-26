@@ -7,10 +7,8 @@ services:
       - '80:80'
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-  node-app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+  node-app1:
+    image: node-app
     env_file:
       - ./.env
     volumes:
@@ -22,12 +20,31 @@ services:
       DB_USERNAME: 'admin'
       DB_PASSWORD: 'adminpw'
       DB_DATABASE: 'typeorm'
-      PORT: 3000
+      PORT: 2222
       JWT_SECRET: 'thisisasamplesecret'
       JWT_ACCESS_EXPIRATION_MINUTES: 30
       JWT_REFRESH_EXPIRATION_DAYS: 30
     depends_on:
       - mysql
+  node-app2:
+    image: node-app
+    env_file:
+      - ./.env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: 'admin'
+      DB_PASSWORD: 'adminpw'
+      DB_DATABASE: 'typeorm'
+      PORT: 3333
+      JWT_SECRET: 'thisisasamplesecret'
+      JWT_ACCESS_EXPIRATION_MINUTES: 30
+      JWT_REFRESH_EXPIRATION_DAYS: 30
+    depends_on:
+      - mysql  
 
   mysql:
     image: mysql:8
