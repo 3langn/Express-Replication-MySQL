@@ -5,7 +5,7 @@ rm -rf ./master/data/*
 rm -rf ./slave/data/*
 rm -rf ./slave2/data/*
 docker-compose build
-docker-compose up -d -V
+docker-compose up -d
 
 until docker exec mysql_master sh -c 'export MYSQL_PWD=111; mysql -u root -e ";"'
 do
@@ -43,8 +43,8 @@ auth_stmt="mysql -umydb_slave_user -pmydb_slave_pwd -h '$(docker-ip mysql_master
 docker exec mysql_slave sh -c "$auth_stmt"
 docker exec mysql_slave sh -c "exit"
 
+docker exec mysql_slave sh -c "export MYSQL_PWD=111; mysql -u root -e 'reset slave'"
 docker exec mysql_slave sh -c "export MYSQL_PWD=111; mysql -u root -e 'start slave'"
-
 docker exec mysql_slave sh -c "export MYSQL_PWD=111; mysql -u root -e 'SHOW SLAVE STATUS \G'"
 
 until docker-compose exec mysql_slave2 sh -c 'export MYSQL_PWD=111; mysql -u root -e ";"'
@@ -55,9 +55,6 @@ done
 
 docker exec mysql_slave2 sh -c "$start_slave_cmd"
 
-
 docker exec mysql_slave2 sh -c "export MYSQL_PWD=111; mysql -u root -e 'reset slave'"
-
 docker exec mysql_slave2 sh -c "export MYSQL_PWD=111; mysql -u root -e 'start slave'"
-
 docker exec mysql_slave2 sh -c "export MYSQL_PWD=111; mysql -u root -e 'SHOW SLAVE STATUS \G'"

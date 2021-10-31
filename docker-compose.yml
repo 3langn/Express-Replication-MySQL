@@ -29,8 +29,6 @@ services:
       JWT_ACCESS_EXPIRATION_MINUTES: 30
       JWT_REFRESH_EXPIRATION_DAYS: 30
     command: npm run dev
-    depends_on:
-      - mysql_master  
 
   node-app2:
     image: node-app
@@ -51,8 +49,6 @@ services:
       JWT_ACCESS_EXPIRATION_MINUTES: 30
       JWT_REFRESH_EXPIRATION_DAYS: 30
     command: npm run dev
-    depends_on:
-      - mysql_master  
 
   mysql_master:
     image: mysql:8
@@ -76,10 +72,11 @@ services:
       - 5506:3306
     depends_on:
       - mysql_master
+      - mysql_slave2
     volumes:
       - ./slave/my.cnf:/etc/mysql/my.cnf
       - ./slave/data:/var/lib/mysql
-  
+
   mysql_slave2:
     image: mysql:8
     env_file:
@@ -93,6 +90,5 @@ services:
     volumes:
       - ./slave2/my.cnf:/etc/mysql/my.cnf
       - ./slave2/data:/var/lib/mysql
-
   redis:
     image: redis
