@@ -13,11 +13,11 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      DB_HOST: mysql
+      DB_HOST: mysql_slave
       DB_PORT: 3306
-      DB_USERNAME: 'admin'
-      DB_PASSWORD: 'adminpw'
-      DB_DATABASE: 'typeorm'
+      DB_USERNAME: 'mydb_slave_user'
+      DB_PASSWORD: 'mydb_slave_pwd'
+      DB_DATABASE: 'mydb'
       PORT: 2222
       JWT_SECRET: 'thisisasamplesecret'
       JWT_ACCESS_EXPIRATION_MINUTES: 30
@@ -25,7 +25,7 @@ services:
       NODE_ENV: 'development'
     command: npm run dev
     depends_on:
-      - mysql
+      - mysql_slave
   node-app2:
     build:
       context: .
@@ -35,11 +35,11 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      DB_HOST: mysql
+      DB_HOST: mysql_slave2
       DB_PORT: 3306
-      DB_USERNAME: 'admin'
-      DB_PASSWORD: 'adminpw'
-      DB_DATABASE: 'typeorm'
+      DB_USERNAME: 'mydb_slave_user'
+      DB_PASSWORD: 'mydb_slave_pwd'
+      DB_DATABASE: 'mydb'
       PORT: 3333
       JWT_SECRET: 'thisisasamplesecret'
       JWT_ACCESS_EXPIRATION_MINUTES: 30
@@ -47,16 +47,16 @@ services:
       NODE_ENV: 'development'
     command: npm run dev
     depends_on:
-      - mysql
+      - mysql_slave2
   mysql:
     image: mysql:8
     ports:
       - '3307:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: 'rootpw'
-      MYSQL_USER: 'admin'
-      MYSQL_PASSWORD: 'adminpw'
-      MYSQL_DATABASE: 'typeorm'
+      MYSQL_ROOT_PASSWORD: '111'
+      MYSQL_USER: 'mydb_slave_user'
+      MYSQL_PASSWORD: 'mydb_slave_pwd'
+      MYSQL_DATABASE: 'mydb'
 
   redis:
     image: redis
