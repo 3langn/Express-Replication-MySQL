@@ -7,6 +7,9 @@ services:
       - '80:80'
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - node-app1
+      - node-app2
   node-app1:
     image: node-app
     build: .
@@ -16,18 +19,18 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      DB_HOST: mysql_slave
+      DB_HOST: mysql_master
       DB_PORT: 3306
-      DB_USERNAME: 'mydb_slave_user'
-      DB_PASSWORD: 'mydb_slave_pwd'
+      DB_USERNAME: 'root'
+      DB_PASSWORD: '111'
       DB_DATABASE: 'mydb'
-      PORT: 3000
+      PORT: 2222
       JWT_SECRET: 'thisisasamplesecret'
       JWT_ACCESS_EXPIRATION_MINUTES: 30
       JWT_REFRESH_EXPIRATION_DAYS: 30
     command: npm run dev
     depends_on:
-      - mysql_slave  
+      - mysql_master  
 
   node-app2:
     image: node-app
@@ -38,10 +41,10 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      DB_HOST: mysql_slave2
+      DB_HOST: mysql_master
       DB_PORT: 3306
-      DB_USERNAME: 'mydb_slave_user'
-      DB_PASSWORD: 'mydb_slave_pwd'
+      DB_USERNAME: 'root'
+      DB_PASSWORD: '111'
       DB_DATABASE: 'mydb'
       PORT: 3333
       JWT_SECRET: 'thisisasamplesecret'
@@ -49,7 +52,7 @@ services:
       JWT_REFRESH_EXPIRATION_DAYS: 30
     command: npm run dev
     depends_on:
-      - mysql_slave2  
+      - mysql_master  
 
   mysql_master:
     image: mysql:8
