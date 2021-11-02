@@ -13,7 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 RegisterRoutes(app);
 app.enable('trust proxy');
+
 app.get('/v1', (req: express.Request, res: express.Response) => {
+  res.send('Hello World '+config.port);
+});
+
+app.post('/v1', (req: express.Request, res: express.Response) => {
   res.send('Hello World '+config.port);
 });
 

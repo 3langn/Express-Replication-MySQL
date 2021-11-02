@@ -4,7 +4,7 @@ services:
   nginx:
     image: nginx:stable-alpine
     ports:
-      - '80:80'
+      - '8080:80'
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
@@ -20,14 +20,10 @@ services:
       - /app/node_modules
     environment:
       DB_HOST: mysql_master
-      DB_PORT: 3306
-      DB_USERNAME: 'root'
-      DB_PASSWORD: '111'
-      DB_DATABASE: 'mydb'
+      DB_READ_HOST1: mysql_slave
+      DB_READ_HOST2: mysql_slave2
       PORT: 2222
-      JWT_SECRET: 'thisisasamplesecret'
-      JWT_ACCESS_EXPIRATION_MINUTES: 30
-      JWT_REFRESH_EXPIRATION_DAYS: 30
+      NODE_ENV: 'development'
     command: npm run dev
 
   node-app2:
@@ -40,24 +36,20 @@ services:
       - /app/node_modules
     environment:
       DB_HOST: mysql_master
-      DB_PORT: 3306
-      DB_USERNAME: 'root'
-      DB_PASSWORD: '111'
-      DB_DATABASE: 'mydb'
+      DB_READ_HOST1: mysql_slave
+      DB_READ_HOST2: mysql_slave2
       PORT: 3333
-      JWT_SECRET: 'thisisasamplesecret'
-      JWT_ACCESS_EXPIRATION_MINUTES: 30
-      JWT_REFRESH_EXPIRATION_DAYS: 30
+      NODE_ENV: 'development'
     command: npm run dev
 
   mysql_master:
     image: mysql:8
     env_file:
       - ./master/mysql_master.env
-    container_name: "mysql_master"
-    restart: "no"
+    container_name: 'mysql_master'
+    restart: 'no'
     ports:
-      - 4406:3306
+      - 3306
     volumes:
       - ./master/my.cnf:/etc/mysql/my.cnf
       - ./master/data:/var/lib/mysql
@@ -66,10 +58,10 @@ services:
     image: mysql:8
     env_file:
       - ./slave/mysql_slave.env
-    container_name: "mysql_slave"
-    restart: "no"
+    container_name: 'mysql_slave'
+    restart: 'no'
     ports:
-      - 5506:3306
+      - 3306
     depends_on:
       - mysql_master
       - mysql_slave2
@@ -81,10 +73,10 @@ services:
     image: mysql:8
     env_file:
       - ./slave2/mysql_slave.env
-    container_name: "mysql_slave2"
-    restart: "no"
+    container_name: 'mysql_slave2'
+    restart: 'no'
     ports:
-      - 6606:3306
+      - 3306
     depends_on:
       - mysql_master
     volumes:

@@ -13,7 +13,6 @@ const errorHandler = (err: ApiError, req: Request, res: Response, next: NextFunc
   if (config.env === 'development') {
     console.log(err);
   }
-
   res.status(statusCode).send(response);
 };
 export { errorHandler };

@@ -1,5 +1,4 @@
 const { generateRoutes, generateSpec } = require('tsoa');
-
 (async () => {
   const specOptions = {
     basePath: '/',
@@ -31,3 +30,4 @@ const { generateRoutes, generateSpec } = require('tsoa');
   await generateSpec(specOptions);
   await generateRoutes(routeOptions);
 })();
+

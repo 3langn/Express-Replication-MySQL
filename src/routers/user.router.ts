@@ -1,5 +1,5 @@
 import { Controller, Example, Get, Response, Route, Security, SuccessResponse, Tags } from '@tsoa/runtime';
-import { ErrorJSON } from 'src/interfaces/error';
+import { ErrorJSON } from '../interfaces/error';
 import userService from '../services/user.service';
 @Tags('Todo')
 @Route('/v1')
