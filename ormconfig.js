@@ -2,24 +2,24 @@ module.exports = {
   type: 'mysql',
   replication: {
     master: {
-      host: process.env.DB_HOST,
+      host: '172.24.0.7',
       port: process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
+      username: 'root',
+      password: 'mypass',
+      database: 'mydb',
     },
     slaves: [
       {
-        host: process.env.DB_READ_HOST1,
+        host: '172.24.0.7',
         port: 3306,
         username: 'root',
         password: '111',
         database: 'mydb',
       },
       {
-        host: process.env.DB_READ_HOST2,
+        host: '172.24.0.7',
         port: 3306,
-        username: 'root',
+        username: 'repl',
         password: '111',
         database: 'mydb',
       },
