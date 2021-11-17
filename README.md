@@ -14,7 +14,7 @@
 
 ## Docker
 
-Run docker-compose up
+Run ./build.sh
 
 ## API Documentation
 
