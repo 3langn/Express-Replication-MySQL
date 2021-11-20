@@ -1,4 +1,4 @@
-# Todo
+# Express-Replication-MySQL
 
 # Steps to run this project:
 
