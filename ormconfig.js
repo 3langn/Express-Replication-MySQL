@@ -26,7 +26,7 @@ module.exports = {
     ],
   },
   selector: 'RR',
-  removeNodeErrorCount: 5,
+  removeNodeErrorCount: 1,
   synchronize: true,
   logging: false,
   migrationsTableName: 'migrations',

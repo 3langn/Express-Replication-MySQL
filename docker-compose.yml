@@ -3,6 +3,8 @@ version: '3'
 services:
   nginx:
     image: nginx:stable-alpine
+    container_name: nginx
+
     ports:
       - '8080:80'
     volumes:
@@ -12,6 +14,7 @@ services:
       - node-app2
   node-app1:
     image: node-app
+    container_name: server-1
     build: .
     env_file:
       - ./.env
@@ -28,6 +31,7 @@ services:
 
   node-app2:
     image: node-app
+    container_name: server-2
     build: .
     env_file:
       - ./.env
@@ -146,6 +150,6 @@ services:
       test: 'mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}'
       interval: 2s
       retries: 20
-
   redis:
     image: redis
+    container_name: redis
